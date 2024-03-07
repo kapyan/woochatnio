@@ -1,0 +1,25 @@
+app/node_modules
+.vscode
+.idea
+config.yaml
+config.dev.yaml
+
+addition/generation/data/*
+!addition/generation/data/.gitkeep
+
+addition/article/data/*
+!addition/article/data/.gitkeep
+sdk
+logs
+
+chat
+chat.exe
+
+# for reverse engine
+reverse
+access.json
+access/*.json
+
+db
+redis
+config

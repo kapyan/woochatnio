@@ -1,0 +1,103 @@
+@import "highlight.less";
+@import "style.less";
+@import "theme.less";
+
+.file-instance {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  margin: 2px 0 !important;
+  margin-bottom: 4px !important;
+  padding: 6px 12px !important;
+  border: 1px solid hsl(var(--border-hover));
+  background: hsla(var(--background-container)) !important;
+  border-radius: var(--radius);
+
+  .file-content {
+    background: none !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  img {
+    max-width: 320px;
+    max-height: 240px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    margin: 0.25rem 0;
+  }
+
+  @media (max-width: 668px) {
+    & {
+      white-space: pre-wrap;
+    }
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    color: hsl(var(--text));
+    flex-shrink: 0;
+  }
+
+  .name {
+    content: attr(file);
+    display: block;
+    color: hsl(var(--text));
+    margin-right: 6px;
+  }
+}
+
+.markdown-body {
+  pre code {
+    color: #c9d1d9;
+  }
+
+  pre.file-block,
+  pre.file-block > div {
+    padding: 0;
+    margin: 0;
+    background: none !important;
+    box-shadow: none !important;
+
+    &:before {
+      content: none !important;
+    }
+  }
+
+  .markdown-syntax {
+    position: relative;
+
+    .markdown-syntax-header {
+      position: absolute;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+      top: -34px;
+      right: 0;
+      user-select: none;
+
+      p {
+        color: hsl(var(--text-secondary-dark));
+        font-size: 12px;
+        line-height: 1;
+        margin: 0 0 0 6px;
+        padding: 0;
+      }
+
+      svg {
+        cursor: pointer;
+        color: hsl(var(--text-secondary-dark));
+        transition: .2s;
+
+        &:hover {
+          color: hsl(var(--text-dark));
+        }
+      }
+    }
+  }
+}
