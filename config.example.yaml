@@ -23,9 +23,9 @@ system:
   general:
     backend: ""
   phone:
-        accesskey: ""
-        signature: ""
-        template: "pub_verif_basic"
+    accesskey: ""
+    signature: ""
+    template: "pub_verif_basic"
   mail:
     host: ""
     port: 465
