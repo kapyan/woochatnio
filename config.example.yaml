@@ -1,15 +1,15 @@
 mysql:
-  db: chatnio
-  host: 192.168.53.6
-  password: Nucleus!
-  port: 31412
-  user: rdapp
+  db: ""
+  host: ""
+  password: ""
+  port: ""
+  user: ""
 
 redis:
-  host: 192.168.53.6
-  port: 30579
+  host: ""
+  port: ""
   db: 0
-  password: "Nucleus!"
+  password: ""
 
 
 secret: SbitdyN5ZH39cNxSrG3kMNZ1GfiyyQ43
@@ -22,6 +22,10 @@ server:
 system:
   general:
     backend: ""
+  phone:
+        accesskey: ""
+        signature: ""
+        template: "pub_verif_basic"
   mail:
     host: ""
     port: 465
