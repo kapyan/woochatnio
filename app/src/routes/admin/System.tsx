@@ -22,6 +22,7 @@ import {
   GeneralState,
   getConfig,
   initialSystemState,
+  PhoneState,
   MailState,
   SearchState,
   setConfig,
@@ -231,6 +232,75 @@ function General({ data, dispatch, onChange }: CompProps<GeneralState>) {
     </Paragraph>
   );
 }
+
+function Phone({ data, dispatch, onChange }: CompProps<PhoneState>) {
+  const { t } = useTranslation();
+
+  return (
+    <Paragraph
+      title={t("admin.system.phone")}
+      configParagraph={true}
+      isCollapsed={true}
+    >
+      <ParagraphItem>
+        <Label>
+          <Require />{t("admin.system.phoneAccesskey")}
+        </Label>
+        <Input
+          value={data.accesskey}
+          onChange={(e) =>
+            dispatch({
+              type: "update:phone.accesskey",
+              value: e.target.value,
+            })
+          }
+          placeholder={`unisms accesskey`}
+        />
+      </ParagraphItem>
+      <ParagraphItem>
+        <Label>
+          <Require /> {t("admin.system.phoneSignature")}
+        </Label>
+        <Input
+          value={data.signature}
+          onChange={(e) =>
+            dispatch({
+              type: "update:phone.signature",
+              value: e.target.value,
+            })
+          }
+          placeholder={`unisms signature`}
+        />
+      </ParagraphItem>
+      <ParagraphItem>
+        <Label>
+          <Require /> {t("admin.system.phoneTemplate")}
+        </Label>
+        <Input
+          value={data.template}
+          onChange={(e) =>
+            dispatch({
+              type: "update:phone.template",
+              value: e.target.value,
+            })
+          }
+          placeholder={`unisms template`}
+        />
+      </ParagraphItem>
+      <ParagraphFooter>
+        <div className={`grow`} />
+        <Button
+          size={`sm`}
+          loading={true}
+          onClick={async () => await onChange()}
+        >
+          {t("admin.system.save")}
+        </Button>
+      </ParagraphFooter>
+    </Paragraph>
+  );
+}
+
 
 function Mail({ data, dispatch, onChange }: CompProps<MailState>) {
   const { t } = useTranslation();
@@ -590,6 +660,7 @@ function System() {
         <CardContent className={`flex flex-col gap-1`}>
           <General data={data.general} dispatch={setData} onChange={doSaving} />
           <Site data={data.site} dispatch={setData} onChange={doSaving} />
+          <Phone data={data.phone} dispatch={setData} onChange={doSaving} />
           <Mail data={data.mail} dispatch={setData} onChange={doSaving} />
           <Search data={data.search} dispatch={setData} onChange={doSaving} />
         </CardContent>

@@ -16,6 +16,12 @@ export type GeneralState = {
   file: string;
 };
 
+export type PhoneState = {
+  accesskey: string;
+  signature: string;
+  template: string;
+};
+
 export type MailState = {
   host: string;
   port: number;
@@ -39,6 +45,7 @@ export type SiteState = {
 export type SystemProps = {
   general: GeneralState;
   site: SiteState;
+  phone: PhoneState;
   mail: MailState;
   search: SearchState;
 };
@@ -107,6 +114,11 @@ export const initialSystemState: SystemProps = {
     quota: 0,
     buy_link: "",
     announcement: "",
+  },
+  phone: {
+    accesskey: "",
+    signature: "",
+    template: "pub_verif_basic",
   },
   mail: {
     host: "",

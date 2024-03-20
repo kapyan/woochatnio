@@ -34,6 +34,9 @@ export const formReducer = <T>() => {
 };
 
 export function isEmailValid(email: string) {
+  if (/^1\d{10}$/.test(email)) {
+    return true
+  }
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 255;
 }
 

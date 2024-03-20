@@ -3,6 +3,7 @@ module chat
 go 1.20
 
 require (
+	github.com/apistd/uni-go-sdk v0.0.2
 	github.com/bincooo/claude-api v1.0.2
 	github.com/chai2010/webp v1.1.1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible

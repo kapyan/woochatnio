@@ -475,7 +475,11 @@
       "mailWhitelistSearchPlaceholder": "Поиск суффиксов доменов",
       "customWhitelistPlaceholder": "Введите список пользовательских суффиксов домена (которые появятся в списке опций на выбор), разделенных запятыми, например: example.com, example.net",
       "buyLink": "Ссылка на покупку",
-      "buyLinkPlaceholder": "Введите ссылку на секретную покупку карты, оставьте поле пустым, чтобы не показывать кнопку покупки"
+      "buyLinkPlaceholder": "Введите ссылку на секретную покупку карты, оставьте поле пустым, чтобы не показывать кнопку покупки",
+      "phone": "Настройки UniSMS SMS",
+      "phoneAccesskey": "AccessKeyId",
+      "phoneSignature": "Подпись",
+      "phoneTemplate": "Шаблоны"
     },
     "user": "Управление пользователями",
     "invitation-code": "Код приглашения",

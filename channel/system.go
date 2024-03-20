@@ -4,8 +4,11 @@ import (
 	"chat/globals"
 	"chat/utils"
 	"fmt"
-	"github.com/spf13/viper"
+	"regexp"
 	"strings"
+
+	unisms "github.com/apistd/uni-go-sdk/sms"
+	"github.com/spf13/viper"
 )
 
 type ApiInfo struct {
@@ -37,6 +40,11 @@ type whiteList struct {
 	WhiteList []string `json:"white_list" mapstructure:"whitelist"`
 }
 
+type phoneState struct {
+	Accesskey string `json:"accesskey" mapstructure:"accesskey"`
+	Signature string `json:"signature" mapstructure:"signature"`
+	Template  string `json:"template" mapstructure:"template"`
+}
 type mailState struct {
 	Host      string    `json:"host" mapstructure:"host"`
 	Port      int       `json:"port" mapstructure:"port"`
@@ -54,6 +62,7 @@ type searchState struct {
 type SystemConfig struct {
 	General generalState `json:"general" mapstructure:"general"`
 	Site    siteState    `json:"site" mapstructure:"site"`
+	Phone   phoneState   `json:"phone" mapstructure:"phone"`
 	Mail    mailState    `json:"mail" mapstructure:"mail"`
 	Search  searchState  `json:"search" mapstructure:"search"`
 }
@@ -93,6 +102,7 @@ func (c *SystemConfig) AsInfo() ApiInfo {
 func (c *SystemConfig) UpdateConfig(data *SystemConfig) error {
 	c.General = data.General
 	c.Site = data.Site
+	c.Phone = data.Phone
 	c.Mail = data.Mail
 	c.Search = data.Search
 
@@ -134,6 +144,12 @@ func (c *SystemConfig) IsValidMailSuffix(suffix string) bool {
 }
 
 func (c *SystemConfig) IsValidMail(email string) error {
+
+	exp := regexp.MustCompile(`^1[3456789]\d{9}$`)
+	if exp.MatchString(email) {
+		return nil
+	}
+
 	segment := strings.Split(email, "@")
 	if len(segment) != 2 {
 		return fmt.Errorf("invalid email format")
@@ -147,18 +163,34 @@ func (c *SystemConfig) IsValidMail(email string) error {
 }
 
 func (c *SystemConfig) SendVerifyMail(email string, code string) error {
-	type Temp struct {
-		Title string `json:"title"`
-		Logo  string `json:"logo"`
-		Code  string `json:"code"`
-	}
+	reg := regexp.MustCompile(`^1[3456789]\d{9}$`)
+	if reg.MatchString(email) {
+		// 初始化
+		client := unisms.NewClient(c.Phone.Accesskey) // 若使用简易验签模式仅传入第一个参数即可
+		// 构建信息
+		message := unisms.BuildMessage()
+		message.SetTo(email)
+		message.SetSignature(c.Phone.Signature)
+		message.SetTemplateId(c.Phone.Template)
+		message.SetTemplateData(map[string]string{"code": code}) // 设置自定义参数 (变量短信)
 
-	return c.GetMail().RenderMail(
-		"code.html",
-		Temp{Title: c.GetAppName(), Logo: c.GetAppLogo(), Code: code},
-		email,
-		fmt.Sprintf("%s | OTP Verification", c.GetAppName()),
-	)
+		// 发送短信
+		_, err := client.Send(message)
+		return err
+	} else {
+		type Temp struct {
+			Title string `json:"title"`
+			Logo  string `json:"logo"`
+			Code  string `json:"code"`
+		}
+
+		return c.GetMail().RenderMail(
+			"code.html",
+			Temp{Title: c.GetAppName(), Logo: c.GetAppLogo(), Code: code},
+			email,
+			fmt.Sprintf("%s | OTP Verification", c.GetAppName()),
+		)
+	}
 }
 
 func (c *SystemConfig) GetSearchEndpoint() string {
@@ -168,6 +200,14 @@ func (c *SystemConfig) GetSearchEndpoint() string {
 
 	return c.Search.Endpoint
 }
+
+// func (c *SystemConfig) GetPhoneAccesskey() string {
+// 	if len(c.Phone.Accesskey) == 0 {
+// 		return ""
+// 	}
+
+// 	return c.Phone.Accesskey
+// }
 
 func (c *SystemConfig) GetSearchQuery() int {
 	if c.Search.Query <= 0 {

@@ -8,12 +8,13 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"strings"
+	"time"
+
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
 	"github.com/spf13/viper"
-	"strings"
-	"time"
 )
 
 func ParseToken(c *gin.Context, token string) *User {
@@ -124,7 +125,7 @@ func SignUp(c *gin.Context, form RegisterForm) (string, error) {
 	}
 
 	if IsEmailExist(db, email) {
-		return "", fmt.Errorf("email is already taken, please try another one email (your current email: %s)", email)
+		return "", fmt.Errorf("email/phone is already taken, please try another one email/phone (your current email/phone: %s)", email)
 	}
 
 	if !checkCode(c, cache, email, code) {

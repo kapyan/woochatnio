@@ -27,7 +27,12 @@ func validateEmail(email string) bool {
 		return false
 	}
 
-	exp := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
+	exp := regexp.MustCompile(`^1[3456789]\d{9}$`)
+	if exp.MatchString(email) {
+		return true
+	}
+
+	exp = regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
 	return exp.MatchString(email)
 }
 
