@@ -4,7 +4,7 @@
 
 ## 本项目基于[Deeptrain-Community/chatnio](https://github.com/Deeptrain-Community/chatnio)v3.9修改开源。
 
-## 演示站[哇靠助手](https://wookao.cn)
+## 演示站[哇靠助手](https://it.wookao.cn)
 
 🚀 强大精美的 **AI聚合** 聊天平台
 
